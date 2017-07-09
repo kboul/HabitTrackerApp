@@ -1,9 +1,10 @@
 package com.example.android.habittrackerapp.data;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.android.habittrackerapp.data.HabitContract.HabitEntry;
 
@@ -47,7 +48,7 @@ public class HabitDbHelper extends SQLiteOpenHelper {
                 + HabitEntry.COLUMN_HABIT_DAY + " TEXT, "
                 + HabitEntry.COLUMN_HABIT_FREQUENCY + " INTEGER NOT NULL DEFAULT 0);";
 
-        Log.v(LOG_TAG, SQL_CREATE_HABITS_TABLE);
+        //Log.v(LOG_TAG, SQL_CREATE_HABITS_TABLE);
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_HABITS_TABLE);
@@ -59,5 +60,34 @@ public class HabitDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // The database is still at version 1, so there's nothing to do be done here.
+    }
+
+    public void insertHabit(int habit, String day, int frequency) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(HabitEntry.COLUMN_HABIT_NAME, habit);
+        values.put(HabitEntry.COLUMN_HABIT_DAY, day);
+        values.put(HabitEntry.COLUMN_HABIT_FREQUENCY, frequency);
+        db.insert(HabitContract.HabitEntry.TABLE_NAME, null, values);
+    }
+
+    public Cursor readHabits() {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] projection = {
+                HabitContract.HabitEntry._ID,
+                HabitEntry.COLUMN_HABIT_NAME,
+                HabitEntry.COLUMN_HABIT_DAY,
+                HabitEntry.COLUMN_HABIT_FREQUENCY
+        };
+        Cursor cursor = db.query(
+                HabitEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        return cursor;
     }
 }
