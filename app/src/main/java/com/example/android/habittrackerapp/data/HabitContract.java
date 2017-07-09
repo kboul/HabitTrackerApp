@@ -10,15 +10,18 @@ public class HabitContract {
 
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
-    private HabitContract() {}
+    private HabitContract() {
+    }
 
     /**
      * Inner class that defines constant values for the habits database table.
      * Each entry in the table represents a single habit.
      */
-    public static final class PetEntry implements BaseColumns {
+    public static final class HabitEntry implements BaseColumns {
 
-        /** Name of database table for habits */
+        /**
+         * Name of database table for habits
+         */
         public final static String TABLE_NAME = "habits";
 
         /**
@@ -33,14 +36,21 @@ public class HabitContract {
          *
          * Type: TEXT
          */
-        public final static String COLUMN_HABIT_NAME ="habit";
+        public final static String COLUMN_HABIT_NAME = "habit";
 
         /**
-         * Date I will do the habit.
+         * Day I will do the habit.
          *
          * Type: TEXT
          */
-        public final static String COLUMN_HABIT_FREQUENCY = "date";
+        public final static String COLUMN_HABIT_DAY = "day";
+
+        /**
+         * How many times will I do the habit during a week.
+         *
+         * Type: TEXT
+         */
+        public final static String COLUMN_HABIT_FREQUENCY = "frequency";
 
 
         /**
